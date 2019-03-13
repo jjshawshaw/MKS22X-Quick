@@ -18,18 +18,21 @@ public class Quick{
 private static int partition ( int [] data, int start, int end){
    int pivot = (int)(Math.random() * (end - start) + start);
    int n = data[pivot];
+  System.out.println(n);
    while (start < end){
-     if (start == pivot){
+     if (start == pivot && end != start){
        int temp = data[pivot + 1];
        data[pivot + 1] = data[pivot];
        data[pivot] = temp;
        pivot++;
+       if (temp < data[pivot]) start++;
      }
-     if (end == pivot){
+     if (end == pivot && end != start){
        int temp = data[pivot - 1];
        data[pivot - 1] = data[pivot];
        data[pivot] = temp;
        pivot--;
+       if (temp > data[pivot]) end--;
      }
      if (data[start] < data[pivot]){
        start++;
