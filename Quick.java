@@ -38,6 +38,7 @@ private static int partition ( int [] data, int start, int end){
        start++;
      }
      if (data[start] > data[pivot]){
+       if (pivot == end) pivot = start;
        int temp = data[end];
        data[end] = data[start];
        data[start] = temp;
