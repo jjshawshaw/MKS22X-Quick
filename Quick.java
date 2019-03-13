@@ -2,7 +2,14 @@ public class Quick{
   /*return the value that is the kth smallest value of the array.
  */
  public static int quickselect(int []data, int k){
-   return 0;
+   return quickselect(data, k, 0, data.length - 1);
+ }
+ public static int quickselect(int []data, int k, int hi, int lo){
+   if (hi == lo) return data[k];
+   int pivot = partition(data, lo, hi);
+   if (pivot == k) return data[k];
+   if (pivot < k) return quickselect(data, k, pivot + 1, hi);
+   else return quickselect(data, k, lo, pivot - 1);
  }
 
  /*Modify the array to be in increasing order.
@@ -46,7 +53,7 @@ private static int partition ( int [] data, int start, int end){
        pivot--;
        if (temp > data[pivot]) end--;
      }
-     if (data[start] <= data[pivot] && end != start){
+     if (data[start] <= data[pivot] && end != start && start != pivot){
        start++;
      }
      if (data[start] > data[pivot] && end != start){
@@ -61,12 +68,8 @@ private static int partition ( int [] data, int start, int end){
  }
 
  public static void main(String[] args){
-   int[] a = new int[]{999,999,999,4,1,0,3,2,999,999,999};
-   System.out.println("pivot: " + partition(a, 0, 10));
-   for (int i : a){
-     System.out.print(i + " ");
-   }
-   quicksort(a);
+   int[] a = new int[]{991,992,993,4,1,0,3,2,994,995,996};
+   quicksort(a, 0, a.length - 1);
    for (int i : a){
      System.out.print(i + " ");
    }
