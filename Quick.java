@@ -1,3 +1,4 @@
+import java.util.*;
 public class Quick{
   /*return the value that is the kth smallest value of the array.
  */
@@ -18,6 +19,8 @@ public class Quick{
     quicksort(data, 0, data.length - 1);
   }
   public static void quicksort(int[] data, int lo, int hi){
+    System.out.println("sorting between" + lo + " and " + hi);
+    System.out.println(Arrays.toString(data));
     if (lo >= hi) return;
     int pivot = partition(data, lo, hi);
     quicksort(data, lo, pivot - 1);
@@ -44,16 +47,29 @@ private static int partition ( int [] data, int start, int end){
        data[pivot + 1] = data[pivot];
        data[pivot] = temp;
        pivot++;
-       if (temp < data[pivot]) start++;
+       if (temp <= data[pivot]) start++;
      }
      if (end <= pivot && end != start){
        int temp = data[pivot - 1];
        data[pivot - 1] = data[pivot];
        data[pivot] = temp;
        pivot--;
-       if (temp > data[pivot]) end--;
+       if (temp >= data[pivot]) end--;
      }
-     if (data[start] <= data[pivot] && end != start && start != pivot){
+     if (data[start] == data[pivot] && start != pivot){
+       if ((int)(Math.random() * 2) == 1){
+         start++;
+         System.out.println("999 to start");
+       }
+       else {
+         int temp = data[end];
+         data[end] = data[start];
+         data[start] = temp;
+         end--;
+         System.out.println("999 to end");
+       }
+     }
+     if (data[start] < data[pivot] && end != start){
        start++;
      }
      if (data[start] > data[pivot] && end != start){
@@ -68,9 +84,15 @@ private static int partition ( int [] data, int start, int end){
  }
 
  public static void main(String[] args){
-   int[] a = new int[]{991,992,993,4,1,0,3,2,994,995,996};
-   quicksort(a, 0, a.length - 1);
-   for (int i : a){
+   int[] b = new int[]{999,999,993,4,1,0,3,2,994,999,996};
+   // for (int i = 0; i < b.length; i++){
+   //   int[] a = new int[]{999,999,993,4,1,0,3,2,994,999,996};
+   //   System.out.println(partition(a, 0, a.length - 1, i));
+   //   System.out.println(Arrays.toString(a));
+   // }
+
+   quicksort(b);
+   for (int i : b){
      System.out.print(i + " ");
    }
    System.out.println();
