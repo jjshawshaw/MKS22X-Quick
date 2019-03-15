@@ -19,8 +19,6 @@ public class Quick{
     quicksort(data, 0, data.length - 1);
   }
   public static void quicksort(int[] data, int lo, int hi){
-    System.out.println("sorting between" + lo + " and " + hi);
-    System.out.println(Arrays.toString(data));
     if (lo >= hi) return;
     int pivot = partition(data, lo, hi);
     quicksort(data, lo, pivot - 1);
@@ -38,63 +36,81 @@ public class Quick{
  */
 
 private static int partition ( int [] data, int start, int end){
-   int pivot = (int)(Math.random() * (end - start) + start);
-   int n = data[pivot];
-  System.out.println("n: " + n);
-   while (start < end){
-     if (start >= pivot && end != start){
-       int temp = data[pivot + 1];
-       data[pivot + 1] = data[pivot];
-       data[pivot] = temp;
-       pivot++;
-       if (temp <= data[pivot]) start++;
-     }
-     if (end <= pivot && end != start){
-       int temp = data[pivot - 1];
-       data[pivot - 1] = data[pivot];
-       data[pivot] = temp;
-       pivot--;
-       if (temp >= data[pivot]) end--;
-     }
-     if (data[start] == data[pivot] && start != pivot){
-       if ((int)(Math.random() * 2) == 1){
-         start++;
-         System.out.println("999 to start");
-       }
-       else {
-         int temp = data[end];
-         data[end] = data[start];
-         data[start] = temp;
-         end--;
-         System.out.println("999 to end");
-       }
-     }
-     if (data[start] < data[pivot] && end != start){
-       start++;
-     }
-     if (data[start] > data[pivot] && end != start){
-       if (pivot == end) pivot = start;
-       int temp = data[end];
-       data[end] = data[start];
-       data[start] = temp;
-       end--;
-     }
-   }
+   int pivot = (start + end) / 2;
+    if (pivot != start) {
+        swap(data,start, pivot);
+        pivot = start;
+        start += 1;
+    }
+    while (start != end) {
+      if (data[start] > data[pivot]) {
+          swap(data,start,end);
+          end--;
+      } else if (data[start] == data[pivot] && pivot != start){
+        if ((int)(Math.random() * 2) == 1){
+          start++;
+        } else {
+          swap(data, start, end);
+          end--;
+        }
+         } else {
+           start++;
+         }
+      }
+      if (data[start] <= data[pivot]) {
+        swap(data,start,pivot);
+        pivot = start;
+      } else {
+        swap(data,start-1, pivot);
+        pivot = start - 1;
+      }
+
    return pivot;
  }
 
- public static void main(String[] args){
-   int[] b = new int[]{999,999,993,4,1,0,3,2,994,999,996};
-   // for (int i = 0; i < b.length; i++){
-   //   int[] a = new int[]{999,999,993,4,1,0,3,2,994,999,996};
-   //   System.out.println(partition(a, 0, a.length - 1, i));
-   //   System.out.println(Arrays.toString(a));
-   // }
+ private static void swap(int[] data, int a, int b) {
+            int x = data[a];
+            data[a] = data[b];
+            data[b] = x;
+  }
 
-   quicksort(b);
-   for (int i : b){
-     System.out.print(i + " ");
-   }
-   System.out.println();
- }
+ private int partitionDutch(int[] data, int lo, int hi){
+   return 0;
+}
+
+ public static void main(String[] args){
+  System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
+  int[]MAX_LIST = {1000000000,500,10};
+  for(int MAX : MAX_LIST){
+    for(int size = 31250; size < 2000001; size*=2){
+      long qtime=0;
+      long btime=0;
+      //average of 5 sorts.
+      for(int trial = 0 ; trial <=5; trial++){
+        int []data1 = new int[size];
+        int []data2 = new int[size];
+        for(int i = 0; i < data1.length; i++){
+          data1[i] = (int)(Math.random()*MAX);
+          data2[i] = data1[i];
+        }
+        long t1,t2;
+        t1 = System.currentTimeMillis();
+        Quick.quicksort(data2);
+        t2 = System.currentTimeMillis();
+        qtime += t2 - t1;
+        t1 = System.currentTimeMillis();
+        Arrays.sort(data1);
+        t2 = System.currentTimeMillis();
+        btime+= t2 - t1;
+        if(!Arrays.equals(data1,data2)){
+          System.out.println("FAIL TO SORT!");
+          System.exit(0);
+        }
+      }
+      System.out.println(size +"\t\t"+MAX+"\t"+1.0*qtime/btime);
+    }
+    System.out.println();
+  }
+}
+
 }
