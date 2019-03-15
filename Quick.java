@@ -5,8 +5,8 @@ public class Quick{
  public static int quickselect(int []data, int k){
    return quickselect(data, k, 0, data.length - 1);
  }
- public static int quickselect(int []data, int k, int hi, int lo){
-   if (hi == lo) return data[k];
+ public static int quickselect(int []data, int k, int lo, int hi){
+   if (hi <= lo) return data[lo];
    int pivot = partition(data, lo, hi);
    if (pivot == k) return data[k];
    if (pivot < k) return quickselect(data, k, pivot + 1, hi);
