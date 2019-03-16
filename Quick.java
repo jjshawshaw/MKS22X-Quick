@@ -27,8 +27,8 @@ public class Quick{
   public static void quicksortDutch(int[] data, int lo, int hi){
     if (lo >= hi) return;
     int pivot[] = partitionDutch(data, lo, hi);
-    quicksort(data, lo, pivot[0] - 1);
-    quicksort(data, pivot[1] + 1, hi);
+    quicksortDutch(data, lo, pivot[0] - 1);
+    quicksortDutch(data, pivot[1] + 1, hi);
   }
 
 
