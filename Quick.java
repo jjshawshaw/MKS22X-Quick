@@ -16,13 +16,19 @@ public class Quick{
  /*Modify the array to be in increasing order.
   */
   public static void quicksort(int[] data){
-    quicksort(data, 0, data.length - 1);
+    quicksortDutch(data, 0, data.length - 1);
   }
   public static void quicksort(int[] data, int lo, int hi){
     if (lo >= hi) return;
     int pivot = partition(data, lo, hi);
     quicksort(data, lo, pivot - 1);
     quicksort(data, pivot + 1, hi);
+  }
+  public static void quicksortDutch(int[] data, int lo, int hi){
+    if (lo >= hi) return;
+    int pivot[] = partitionDutch(data, lo, hi);
+    quicksort(data, lo, pivot[0] - 1);
+    quicksort(data, pivot[1] + 1, hi);
   }
 
 
@@ -74,11 +80,31 @@ private static int partition ( int [] data, int start, int end){
             data[b] = x;
   }
 
- private int partitionDutch(int[] data, int lo, int hi){
-   return 0;
+ private static int[] partitionDutch(int[] data, int start, int end){
+      int pivotIndex = (start + end) / 2;
+      int pivot = data[pivotIndex];
+      int lt = start;
+      int gt = end;
+       while (start <= end) {
+         if (data[start] > pivot) {
+             swap(data,start,gt);
+             end--;
+             gt--;
+         } else if (data[start] < pivot){
+           swap(data,start,lt);
+            start++;
+            lt++;
+         }
+         else if (data[start] == pivot){
+           start++;
+         }
+       }
+    return new int[]{lt, gt};
 }
 
  public static void main(String[] args){
+   // int[] b = new int[]{1, 5, 4, 3, 5, 5, 5, 2, 9};
+  // partitionDutch(b, 0, b.length - 1);
   System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
   int[]MAX_LIST = {1000000000,500,10};
   for(int MAX : MAX_LIST){
