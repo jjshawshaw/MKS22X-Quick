@@ -18,6 +18,7 @@ public class Quick{
   public static void quicksort(int[] data){
     quicksortDutch(data, 0, data.length - 1);
   }
+
   public static void quicksort(int[] data, int lo, int hi){
     if (lo >= hi) return;
     int pivot = partition(data, lo, hi);
@@ -26,9 +27,12 @@ public class Quick{
   }
   public static void quicksortDutch(int[] data, int lo, int hi){
     if (lo >= hi) return;
-    int pivot[] = partitionDutch(data, lo, hi);
-    quicksortDutch(data, lo, pivot[0] - 1);
-    quicksortDutch(data, pivot[1] + 1, hi);
+    if (hi - lo <= 3) insertionSort(data, lo, hi);
+    else{
+      int pivot[] = partitionDutch(data, lo, hi);
+      quicksortDutch(data, lo, pivot[0] - 1);
+      quicksortDutch(data, pivot[1] + 1, hi);
+    }
   }
 
 
@@ -95,16 +99,31 @@ private static int partition ( int [] data, int start, int end){
             start++;
             lt++;
          }
-         else if (data[start] == pivot){
+         else{
            start++;
          }
        }
     return new int[]{lt, gt};
 }
 
+public static void insertionSort(int[] ary, int lo, int hi){
+  for (int i = lo + 1; i <= hi; i++){
+    int temp = ary[i];
+    if (ary[i - 1] > ary[i]){
+      int x = i - 1;
+      while (x > lo && ary[x - 1] > temp){
+        ary[x + 1] = ary[x];
+        x--;
+      }
+      ary[x + 1] = ary[x];
+      ary[x] = temp;
+    }
+  }
+}
+
  public static void main(String[] args){
-   // int[] b = new int[]{1, 5, 4, 3, 5, 5, 5, 2, 9};
-  // partitionDutch(b, 0, b.length - 1);
+    // int[] b = new int[]{1, 5, 6, 6, 9, 5, 1, 3, 5, 9, 9, 7, 7, 2, 4, 9, 0, 1, 5, 3, 2, 6};
+    // quicksort(b);
   System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
   int[]MAX_LIST = {1000000000,500,10};
   for(int MAX : MAX_LIST){
